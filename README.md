@@ -34,20 +34,22 @@ Quick demo to demonstrate the use of firebase web push notifications with the us
 - voila :)
 
 ### using Postman
-- URL: https://fcm.googleapis.com/fcm/send
-- Type: POST
-- Header
-	Authorization: key=<server key>
-- Request Body:
-	{
-	  "notification": {
-		"title": "<notification title>",
-		"body": "<notifiction body>",
-		"icon": "firebase-icon.png",
-		"click_action": "http://localhost:8081"
-	  },
-	  "to": "<target device token>"
-	}
+	```
+		- URL: https://fcm.googleapis.com/fcm/send
+		- Type: POST
+		- Header
+			Authorization: key=<server key>
+		- Request Body:
+			{
+			  "notification": {
+				"title": "<notification title>",
+				"body": "<notifiction body>",
+				"icon": "firebase-icon.png",
+				"click_action": "http://localhost:8081"
+			  },
+			  "to": "<target device token>"
+			}
+	```
 
 ### fcm-django DRF API URL docs demo
 
