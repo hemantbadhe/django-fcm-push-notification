@@ -6,9 +6,9 @@ Quick demo to demonstrate the use of firebase web push notifications with the us
 
 ### prerequisites
 - in `fcm-django-web-demo`:
-  - create virtual environment with `python -m virtualenv env` (or `python -m venv env` in Python 3)
+  - create virtual environment with `virtualenv -p python3 <venv name>` Python 3
   - activate virtual environment with `. env/bin/activate`
-  - install necessary Python packages with `pip install -r mysite/requirements.txt`
+  - install necessary Python packages with `pip install -r updated_requirements.txt`
   - add the senderId, APIkey etc, in index.html
   - add senderId in manifest.json & firebase-messaging-sw.js file
   - add Server key as FCM_SERVER_KEY in settings file
@@ -20,7 +20,7 @@ Quick demo to demonstrate the use of firebase web push notifications with the us
   - run server with `python manage.py runserver 0.0.0.0:8000`.
 
 ### how to use
-- open http://localhost:8001 in your browser of choice
+- open http://localhost:8000 in your browser of choice
 - request token and allow firebase to send notifications to your browser (device)
 - you should now be seeing your instance id token on the aforementioned URL
 - if you go to django admin, http://localhost:8000/admin/fcm_django/fcmdevice/, you should be seeing a FCMDevice instance for your browser
@@ -33,6 +33,21 @@ Quick demo to demonstrate the use of firebase web push notifications with the us
     ```
 - voila :)
 
+### using Postman
+- URL: https://fcm.googleapis.com/fcm/send
+- Type: POST
+- Header
+	Authorization: key=<server key>
+- Request Body:
+	{
+	  "notification": {
+		"title": "<notification title>",
+		"body": "<notifiction body>",
+		"icon": "firebase-icon.png",
+		"click_action": "http://localhost:8081"
+	  },
+	  "to": "<target device token>"
+	}
 
 ### fcm-django DRF API URL docs demo
 
