@@ -31,6 +31,8 @@ Quick demo to demonstrate the use of firebase web push notifications with the us
 	   device = FCMDevice.objects.all().first()
 	   device.send_message(title='title', body='message')
     ```
+- using api
+in browser hit this ```http:localhost:8000/api/send_notification/```
 - voila :)
 
 ### to run over https(only in development)

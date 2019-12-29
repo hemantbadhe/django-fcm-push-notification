@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^docs/', include_docs_urls(title='FCM django web demo')),
     url(r'^api/', include(router.urls)),
     url(r'^$', index),
+    url(r'^api/send_notification/', send_notification),
     url(r'^firebase-messaging-sw.js',
         TemplateView.as_view(template_name="firebase-messaging-sw.js", content_type='application/javascript', )),
     url(r'^manifest.json',
