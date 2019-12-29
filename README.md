@@ -33,6 +33,17 @@ Quick demo to demonstrate the use of firebase web push notifications with the us
     ```
 - voila :)
 
+### to run over https(only in development)
+```
+Try in another terminal window,
+
+ssh -R 80:<your django running server ip with port> ssh.localhost.run
+Example: ssh -R 80:0.0.0.0:8000 ssh.localhost.run
+the output will be,
+    Connect to http://hemant-btwz.localhost.run or https://hemant-btwz.localhost.run
+    'https://hemant-btwz.localhost.run' copy and paste in browser
+```
+
 ### using Postman
 	```
 		- URL: https://fcm.googleapis.com/fcm/send

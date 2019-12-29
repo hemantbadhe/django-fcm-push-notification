@@ -76,17 +76,9 @@
   };
   firebase.initializeApp(config);
 </script>
-
-
 <!-- END INITIALIZATION CODE -->
-<!-- ******************************************************** -->
 <script>
-  // [START get_messaging_object]
-  // Retrieve Firebase Messaging object.
   const messaging = firebase.messaging();
-  // [END get_messaging_object]
-
-  // IDs of divs that display Instance ID token UI or request permission UI.
   const tokenDivId = 'token_div';
   const permissionDivId = 'permission_div';
 
@@ -111,19 +103,10 @@
       showToken('Unable to retrieve refreshed token ', err);
     });
   });
-  // [END refresh_token]
 
-  // [START receive_message]
-  // Handle incoming messages. Called when:
-  // - a message is received while the app has focus
-  // - the user clicks on an app notification created by a sevice worker
-  //   `messaging.setBackgroundMessageHandler` handler.
-  messaging.onMessage(function(payload) {
+    messaging.onMessage(function(payload) {
     console.log("Message received. ", payload);
-    // [START_EXCLUDE]
-    // Update the UI to include the received message.
     appendMessage(payload);
-    // [END_EXCLUDE]
 
     const notificationTitle = payload.notification.title;
     const notificationOptions = {
@@ -142,17 +125,11 @@
             notification.close();
         }
     }
-
-
   });
-  // [END receive_message]
 
   function resetUI() {
     clearMessages();
     showToken('loading...');
-    // [START get_token]
-    // Get Instance ID token. Initially this makes a network call, once retrieved
-    // subsequent calls to getToken will return from cache.
 
     console.log("getting token")
     messaging.getToken().then((resp) => {
@@ -165,9 +142,7 @@
         sendTokenToServer(currentToken);
         updateUIForPushEnabled(currentToken);
       } else {
-        // Show permission request.
         console.log('No Instance ID token available. Request permission to generate one.');
-        // Show permission UI.
         updateUIForPushPermissionRequired();
         setTokenSentToServer(false);
       }
@@ -178,26 +153,20 @@
       setTokenSentToServer(false);
     });
     console.log("End get token")
-
   }
-  // [END get_token]
 
   function showToken(currentToken) {
-    // Show token in console and UI.
     var tokenElement = document.querySelector('#token');
     console.log(tokenElement)
     console.log(currentToken)
     tokenElement.textContent = currentToken;
   }
 
-  // Send the Instance ID token your application server, so that it can:
-  // - send messages back to this app
-  // - subscribe/unsubscribe the token from topics
   function sendTokenToServer(currentToken) {
     if (!isTokenSentToServer()) {
       console.log('Sending token to server...');
-      // TODO(developer): Send the current token to your server.
-      fetch('http://localhost:8000/api/devices/', {
+      //fetch('http://localhost:8000/api/devices/', {
+      fetch(window.location.origin+'/api/devices/', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -243,41 +212,28 @@
   }
 
     console.log('Requesting permission...');
-    // [START request_permission]
     messaging.requestPermission()
     .then(function() {
       console.log('Notification permission granted.');
-      // TODO(developer): Retrieve an Instance ID token for use with FCM.
-      // [START_EXCLUDE]
-      // In many cases once an app has been granted notification permission, it
-      // should update its UI reflecting this.
       resetUI();
-      // [END_EXCLUDE]
     })
     .catch(function(err) {
       console.log('Unable to get permission to notify.', err);
     });
-    // [END request_permission]
 
 
   function deleteToken() {
-    // Delete Instance ID token.
-    // [START delete_token]
     messaging.getToken()
     .then(function(currentToken) {
       messaging.deleteToken(currentToken)
       .then(function() {
         console.log('Token deleted.');
         setTokenSentToServer(false);
-        // [START_EXCLUDE]
-        // Once token is deleted update UI.
         resetUI();
-        // [END_EXCLUDE]
       })
       .catch(function(err) {
         console.log('Unable to delete token. ', err);
       });
-      // [END delete_token]
     })
     .catch(function(err) {
       console.log('Error retrieving Instance ID token. ', err);
